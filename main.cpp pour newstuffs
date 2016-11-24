@@ -1,0 +1,40 @@
+
+#include<stdio.h>
+#include"functions.h"
+
+int main(){
+    Image *in = new Image();
+
+    getPGM(in,"lena.pgm");
+
+    Image *out = new Image(in->sx, in->sy);
+
+    /*copvoid getPGM(Image *in,char *filename){ier*/
+    int i,j;
+    for(i=0;i<in->sy;i++){
+         for(j=0;j<in->sx;j++){
+          out->img[i][j] = in->img[i][j];
+        }
+    }
+    /*fin de copier*/
+
+    /*seuillage*/
+
+    double threshold =128.0;
+    for(i=0;i<in->sy;i++){
+         for(j=0;j<in->sx;j++){
+          if(in->img[i][j]>=threshold){
+           out->img[i][j]= in->img[i][j];
+          }else{
+            out->img[i][j] = 0.0;
+          }
+        }
+    }
+    /*fin de seuillage*/
+
+    savePGM(out,"lena2.pgm");
+    delete out;
+    delete in;
+
+    return 0;
+}
