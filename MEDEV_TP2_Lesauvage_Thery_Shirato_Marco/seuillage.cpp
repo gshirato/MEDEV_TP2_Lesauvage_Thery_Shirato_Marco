@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void seuillage(ifstream image, int argseuil, string outputname){//on propose à l'utilisateur
+void seuillage(ifstream & image, int argseuil, string outputname){//on propose à l'utilisateur
                                 //de mettre son propre argument de seuillage
     string current_line;
     ofstream outfile(outputname);
@@ -20,22 +20,22 @@ void seuillage(ifstream image, int argseuil, string outputname){//on propose à 
     string hau;
     unsigned int i=0;//entier de parcours
     unsigned int taille = current_line.size();
-    char j=current_line(i);//caractère de parcours
+    char j=current_line[i];//caractère de parcours
     while (i < taille && j!=' '){
-        j=current_line(i);
-        lar.append(j);
+        j=current_line[i];
+        lar += j;
         i++;
     }
     i++;
     while (i<taille){
-        j=current_line(i);
-        hau.append(j);
+        j=current_line[i];
+        hau += j;
         i++;
     }
-    int largeur = (int) lar;
-    int hauteur = (int) hau;
+    int largeur = atoi(lar.c_str());
+    int hauteur = atoi(hau.c_str());
     getline(image, current_line);//maximum, inutiles
-    int maximum = (int) current_line;
+    int maximum = atoi(current_line.c_str());
     outfile << current_line;
     for(int h = 0;h<hauteur;h++){
         getline(image, current_line);//on se place sur la ligne qu'on va traiter
@@ -43,13 +43,13 @@ void seuillage(ifstream image, int argseuil, string outputname){//on propose à 
         int k=0;//on indente k sur les pixels, dont on connaît le nombre
         i = 0;
         while(k<largeur){//on se repère grâce au nbre de pixels
-        string current_nbr = '';
+        string current_nbr;
             while(j!='\t'&& j!='\n'){
-                current_nbr.append(j);
+                current_nbr +=j;
                 i++;
                 j = current_line[i];
             }
-        int nombre = (int) current_nbr;
+        int nombre = atoi(current_nbr.c_str());
         if (nombre<argseuil){
             outfile << 0 << j;
         }else{
