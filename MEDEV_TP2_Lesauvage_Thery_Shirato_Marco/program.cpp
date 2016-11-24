@@ -1,5 +1,3 @@
-
-
 //-----------------------------------------------------------------
 #include "program.h"
 
@@ -79,7 +77,7 @@ bool PGM::load_from_file(const char *file_name)
     file>>str;
     if(str!="P2") return false;    //PGM
     
-    //read taille
+    //lire sa taille
     for(int i=0;i<3;i++){
         file>>str;
         while(str[0]=='#'){
@@ -102,28 +100,14 @@ bool PGM::load_from_file(const char *file_name)
             while(str[0]=='#'){
                 getline(file,str);
                 file>>str;
-            }
-            
-            if(grayscale) pixels[x][y]=std::atoi(str.c_str());
-            else{
-                double r=std::atoi(str.c_str());
-                double g,b;
-                for(int j=0;j<2;j++){
-                    file>>str;
-                    while(str[0]=='#'){
-                        getline(file,str);
-                        file>>str;
-                    }
-                    switch(j){
-                        case 0: g=std::atoi(str.c_str()); break;
-                        case 1: b=std::atoi(str.c_str()); break;
-                    }
-                }
                 
-                pixels[x][y]=r*0.299+g*0.587+b*0.114;
             }
+           pixels[x][y]=atoi(str.c_str());
+           cout << str << " ";
+            }
+        cout <<endl;
         }
-    }
+    
     file.close();
     
     return true;
@@ -137,11 +121,11 @@ bool PGM::save_to_file(const char *file_name)
     
     if(!file.is_open()) return false;
     
-    file<<"P2"<<std::endl;
+    file<<"P2"<<endl;
     
-    file<<"# CREATOR: no name"<<std::endl;
-    file<<W<<" "<<H<<std::endl;
-    file<<255<<std::endl;
+    file<<"# CREATOR: no name"<<endl;
+    file<<W<<" "<<H<<endl;
+    file<<255<<endl;
     
     for(int y=0;y<H;y++){
         for(int x=0;x<W;x++){
